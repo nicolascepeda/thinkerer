@@ -5,3 +5,13 @@
 .timeline {
     padding-left: 10px;
 }
+
+.comments {
+    padding-top: 10px;
+}
+
+.comments li {
+    padding: 5px;
+    border-top: 1px solid rgb(229 231 235 / var(--tw-border-opacity));;
+    margin-bottom: 10px;
+}

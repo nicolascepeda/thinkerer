@@ -6,6 +6,7 @@ from starlette.datastructures import MutableHeaders
 import json
 import logging
 import llm
+import time
 
 
 # python -m uvicorn index:app --reload
@@ -22,6 +23,7 @@ app.add_middleware(
 
 @app.get("/world_event/{name}")
 def get_world_event(name):
+  
     return {
     "title" : "Ukrain War",
     "type" : "world_event",
