@@ -1,0 +1,29 @@
+.header {
+    text-align: center;
+}
+
+.header h1 {
+    
+}
+
+.brand-bg {
+    background-color: #efefeb;
+}
+
+.header img {
+    width: 200px;
+    margin: 0 auto;
+}
+
+.suggestions {
+    margin-top: 20px;
+}
+
+.suggestions h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.clickable:hover {
+    cursor: pointer;
+}
