@@ -1,24 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Home from './Home';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
-import WorldEvent from './WorldEvent';
+import Home from './Home';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-      <BrowserRouter>
-      <Routes>
-        <Route path="/">
-          <Route index element={<Home />} />
-          <Route path="/world_event/:name" element={<WorldEvent/>} />
-        </Route>
-      </Routes>
-  </BrowserRouter>
+      <Home/>
   </React.StrictMode>
 );
 

@@ -15,3 +15,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.brand-bg {
+  background-color: #efefeb;
+}
+
+.clickable:hover {
+  cursor: pointer;
+}
