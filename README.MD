@@ -34,3 +34,7 @@ cd api
 pip install -r requirements
 python -m uvicorn index:app --reload
 ```
+
+### Research
+
+Contains Jupyter notebook files to find news about a certain topic, summarize it, remove political biases of the news and point out the divergent views on the same topic.
