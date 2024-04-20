@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './Home.css';
 import ViewTopic from './ViewTopic';
 import { Message, Topic } from './model';
+import Dictaphone from './Dictaphone';
+
+const apiUrl = process.env.REACT_APP_BACKEND_API || "";
 
 const Home: React.FC = () => {
+    const inputRef = useRef<HTMLInputElement>(null);
     const [currentTopic, setCurrentTopic] = useState<Topic | undefined>(undefined);
 
     const [inputValue, setInputValue] = useState("");
@@ -24,7 +28,7 @@ const Home: React.FC = () => {
     const sendMessage = async () => {
         setMessages([...messages, { "role": "USER", "content": inputValue }]);
         setSending(true);
-        await fetch("http://localhost:8000/message/" + inputValue,
+        await fetch(apiUrl + "/message/" + inputValue,
             {
                 headers: {
                     'Accept': 'application/json',
@@ -35,9 +39,11 @@ const Home: React.FC = () => {
             .then((response) => response.json())
             .then((topic: any) => {
                 setMessages([...messages, { "role": "USER", "content": inputValue }, { "role": "ASSISTANT", "topic": topic }]);
-                setSending(false)
                 setInputValue('')
-            });
+            })
+            .finally(() => {
+                setSending(false);
+            })
     }
 
     const render = () => {
@@ -114,6 +120,7 @@ const Home: React.FC = () => {
             <div className="flex items-center">
                 <input
                     type="text"
+                    ref={inputRef}
                     value={inputValue}
                     disabled={sending}
                     onChange={(e) => setInputValue(e.target.value)}
@@ -126,6 +133,7 @@ const Home: React.FC = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
                     </svg>
                 </button>
+                <Dictaphone setText={(text:string) => setInputValue(text)} isSubmitting={sending} />
             </div>
         </div>
     }

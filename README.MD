@@ -10,6 +10,12 @@ git clone git@github.com:nicolascepeda/thinkerer.git
 
 ### Frontend
 
+Create a file called app/.env
+```
+REACT_APP_WHISPER_API_KEY="YOUR API KEY HERE"
+REACT_APP_BACKEND_API="http://localhost:8000" # this should be a good default
+```
+
 Run the frontend
 ```
 cd app

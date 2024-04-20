@@ -7,6 +7,8 @@ interface Props {
   close: Function;
 }
 
+const apiUrl = process.env.REACT_APP_BACKEND_API || "";
+
 const ViewTopic: React.FC<Props> = (props: Props) => {
   const [inited, setInited] = useState<boolean>(false);
   const [information, setInformation] = useState<any>(undefined);
@@ -16,7 +18,7 @@ const ViewTopic: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     if (!inited) {
       const fetchData = async () => {
-        await fetch("http://localhost:8000/topic/" + props.topic.type + "/" + props.topic.name,
+        await fetch(apiUrl + "/topic/" + props.topic.type + "/" + props.topic.name,
           {
             headers: {
               'Accept': 'application/json',
