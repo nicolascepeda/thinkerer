@@ -36,7 +36,8 @@ def db_lookup(text,json=False):
                 "content": prompt,
             }
         ],
-        model="llama3-8b-8192"
+        model="llama3-8b-8192",
+        max_tokens=10
         # response_format= {"type": "json_object"}
     )
     result = res.choices[0].message.content
