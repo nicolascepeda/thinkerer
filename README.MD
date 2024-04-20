@@ -1,5 +1,8 @@
 # Thinkerer
+
 Breaking thought Bubbles by reducing information biases.
+
+<img src="app/public/logo.png" width="150"/>
 
 ## Setup
 
