@@ -9,17 +9,16 @@ interface Props {
 
 const apiUrl = process.env.REACT_APP_BACKEND_API || "";
 
-let initialized : string | undefined = undefined;
-
 const ViewTopic: React.FC<Props> = (props: Props) => {
   const [inited, setInited] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [information, setInformation] = useState<any>(undefined);
 
   const [event, setEvent] = useState<any>(undefined);
 
   useEffect(() => {
-    if (!inited && !initialized && initialized !== props.topic.name) {
-      initialized = props.topic.name;
+    if (!inited && !loading) {
+      setLoading(true);
       console.log("Fetching data")
 
       const fetchData = async () => {
