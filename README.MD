@@ -1,5 +1,5 @@
 # Thinkerer
-Breaking Thought Bubbles
+Breaking thought Bubbles by reducing information biases.
 
 ## Setup
 
