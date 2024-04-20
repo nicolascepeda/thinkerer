@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './WorldEvent.css';
-import { useParams } from 'react-router-dom';
+import './ViewTopic.css';
 import { Topic } from './model';
 
 interface Props {
@@ -8,7 +7,7 @@ interface Props {
   close : Function;
 }
 
-const WorldEvent: React.FC<Props> = (props: Props) => {
+const ViewTopic: React.FC<Props> = (props: Props) => {
     const [inited, setInited] = useState<boolean>(false);
     const [information, setInformation] = useState<any>(undefined);
 
@@ -17,7 +16,7 @@ const WorldEvent: React.FC<Props> = (props: Props) => {
     useEffect(() => {
       if(!inited){
         const fetchData = async () => {
-          await fetch("http://localhost:8000/world_event/" + props.topic.name,
+          await fetch("http://localhost:8000/topic/" + props.topic.type + "/" + props.topic.name,
           {
             headers: {
               'Accept': 'application/json',
@@ -34,7 +33,7 @@ const WorldEvent: React.FC<Props> = (props: Props) => {
       fetchData()
         .catch(console.error);
     }
-    }, []);
+    }, [props.topic.name, inited]);
 
     const close = () => {
         props.close()
@@ -43,15 +42,15 @@ const WorldEvent: React.FC<Props> = (props: Props) => {
     const timeline = () => {
         return <div className="timeline">
 <ol className="relative border-s border-gray-200">
-    {information?.events.map((evt : any, idx : number) => <li className="mb-10 ms-4 clickable" key={evt.title} onClick={e => event == evt ? setEvent(undefined) : setEvent(evt)}>
+    {information?.events.map((evt : any, idx : number) => <li className="mb-10 ms-4 clickable" key={evt.title} onClick={e => event === evt ? setEvent(undefined) : setEvent(evt)}>
             <div className="absolute w-3 h-3 brand-bg rounded-full mt-1.5 -start-1.5 border border-white border-gray-900"></div>
             <h3 className="text-lg font-semibold text-gray-900">{evt.title}</h3>
             <time className="mb-1 text-sm font-normal leading-none text-gray-400">{evt.date}</time>
             <p className="mb-4 text-base font-normal text-gray-500">{evt.summary}</p>
             <p className="text-gray-500 text-sm text-right">
-            {event == evt ? "Hide Comments" : "Show Comments"}
+            {event === evt ? "Hide Comments" : "Show Comments"}
             </p>
-            {event == evt ? <div className="comments">
+            {event === evt ? <div className="comments">
               <ul className="text-gray-500 text-sm ">
                 {evt.comments_political_left.map((comment:any, idx : number) => <li key={idx}>{comment}</li>)}
                 {evt.comments_political_right.map((comment:any, idx : number) => <li key={idx}>{comment}</li>)}
@@ -95,4 +94,4 @@ const WorldEvent: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default WorldEvent;
+export default ViewTopic;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Home.css';
-import WorldEvent from './WorldEvent';
+import ViewTopic from './ViewTopic';
 import { Message, Topic } from './model';
 
 const Home: React.FC = () => {
@@ -39,8 +39,8 @@ const Home: React.FC = () => {
     }
 
     const render = () => {
-        if (currentTopic?.type == "world_event") {
-            return <WorldEvent topic={currentTopic} close={() => setCurrentTopic(undefined)}></WorldEvent>
+        if (!!currentTopic) {
+            return <ViewTopic topic={currentTopic} close={() => setCurrentTopic(undefined)}></ViewTopic>
         }
         return renderHome();
     }
@@ -60,20 +60,40 @@ const Home: React.FC = () => {
         </div>
     }
 
-    const renderMessages = () => {
-        return <div id="messageArea" className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.map((msg: Message, idx: number) => <div key={idx} className={"p-3 flex rounded items-center rounded max-w-xs " + (msg.role === "ASSISTANT" ? " brand-bg " : " bg-gray-200 ml-auto ") + (!!msg.topic ? " clickable " : "")} onClick={evt => msg.topic ? setCurrentTopic(msg.topic) : ''}>
-                {msg.content ? msg.content : ''}
+    const renderMessage = (message: Message) => {
+        if (message.role === "ASSISTANT") {
+            if (message.topic?.type === "world_event") {
+                return <><p>Let's see what we know about <strong>{message.topic.name}</strong></p>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </>
+            } else if (message.topic?.type === "company_news") {
+                return <><p>Let's see what we know about company <strong>{message.topic.name}</strong></p>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </>
+            } else {
+                return <p>Sorry, I cannot help you with that yet.</p>
+            }
+        }
+        return message.content;
+    }
 
-                {msg.topic ? <p>Let's see what we know about <strong>{msg.topic.name}</strong></p> : ''}
-                {msg.topic ? <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                </svg> : ''}
+    const isMessageClickable = (message : Message) => {
+        return message.role === "ASSISTANT" && !!message.topic && message.topic?.type !== "other";
+    }
+    const renderMessages = () => {
+
+        return <div id="messageArea" className="flex-1 overflow-y-auto p-4 space-y-4">
+            {messages.map((msg: Message, idx: number) => <div key={idx} className={"p-3 flex rounded items-center rounded max-w-xs " + (msg.role === "ASSISTANT" ? " brand-bg " : " bg-gray-200 ml-auto ") + (isMessageClickable(msg) ? " clickable " : "")} onClick={evt => isMessageClickable(msg) ? setCurrentTopic(msg.topic) : ''}>
+                {renderMessage(msg)}
             </div>)}
         </div>
     }
 
-    const onKeyDown=(event : any)=> {
+    const onKeyDown = (event: any) => {
         if (event.keyCode === 13) {
             sendMessage();
         }
@@ -84,7 +104,7 @@ const Home: React.FC = () => {
             <div className="header">
                 <h1 className="mb-2 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">Thinkerer</h1>
                 <p className="mb-6 text-lg font-normal text-gray-500">Breaking the bubble</p>
-                <img src="/logo.png" className="logo" />
+                <img src="/logo.png" className="logo" alt="Thinkerer Logo" />
             </div>
 
             {messages.length === 0 ? renderSuggestions() : renderMessages()}
@@ -95,7 +115,7 @@ const Home: React.FC = () => {
                     value={inputValue}
                     disabled={sending}
                     onChange={(e) => setInputValue(e.target.value)}
-                    onKeyDown={(e) => onKeyDown(e) }
+                    onKeyDown={(e) => onKeyDown(e)}
                     className="flex-grow p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Type your message here..."
                 />
