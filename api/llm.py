@@ -29,7 +29,7 @@ def db_lookup(text,json=False):
     Here are the world events that I already know of: {titles}
     Give me the index (starting at 0) of the closest, most relevant event to the given query: {text}.
     Make sure it's between 0 and {len(titles)-1}.
-    If you can't find anything that is more than 50% relevant, return -1.
+    If you can't find anything that is more than 80% relevant, return -1.
     Just return the number, nothing else. Only the number.
     """
     res = client.chat.completions.create(
@@ -39,7 +39,7 @@ def db_lookup(text,json=False):
                 "content": prompt,
             }
         ],
-        model="llama3-8b-8192",
+        model="llama3-70b-8192",
         # response_format= {"type": "json_object"}
     )
     result = res.choices[0].message.content
@@ -162,4 +162,5 @@ def message_classifier(message):
     """
     res = complete_json(prompt, model="llama3-70b-8192")
     obj = json.loads(res)
+    
     return {"type" : obj['category'], "name" : obj['title']}
