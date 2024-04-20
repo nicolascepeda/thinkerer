@@ -13,7 +13,9 @@ const Home: React.FC = () => {
     const suggestions: Topic[] = [
         { "type": "world_event", "name": "War in Ukrain" },
         { "type": "world_event", "name": "Israel-Palestina Conflict" },
-        { "type": "world_event", "name": "World War II" }];
+        { "type": "company_news", "name": "Tesla" },
+        { "type": "company_news", "name": "OpenAI" },
+    ];
 
     const openTopic = (topic: Topic) => {
         setCurrentTopic(topic)

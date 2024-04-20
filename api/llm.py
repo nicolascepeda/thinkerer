@@ -40,11 +40,47 @@ Don't return anything else. Just the JSON."""
     for evt in obj["events"]:
         evt["summary"] = evt["neutral_summary"]
         del evt["neutral_summary"]
+        evt['comments'] = []
+        if evt['comments_political_left']:
+            for com in evt['comments_political_left']:
+                evt['comments'].append({"content" : com, "type" : "political_left"})
+        if evt['comments_political_right']:
+            for com in evt['comments_political_right']:
+                evt['comments'].append({"content" : com, "type" : "political_right"})
     
     return obj
 
 def company_news(company_name):
-    return {"title" : "nothing yet here"}
+    prompt = f"""You are a financial analyst commentator who's able to comment the performance of companies from multiple angles.
+
+Given the following company {company_name}
+
+Return a JSON with the following keys: 
+title, neutral_summary, events (list of relevant news about the company)
+
+Every event has the following keys: date, title, neutral_summary, comments_bullish (array), comments_bearish (array), sentiment_score (-5 for very bad, 5 for very good)
+
+Make sure that you respect the provided schema of the JSON object.
+Don't return anything else. Just the JSON."""
+    res = complete_json(prompt)
+    obj = json.loads(res)
+    
+    obj["summary"] = obj["neutral_summary"]
+    
+    for evt in obj["events"]:
+        evt["summary"] = evt["neutral_summary"]
+        del evt["neutral_summary"]
+        
+        evt['comments'] = []
+        evt['sentiment_score'] = int(evt['sentiment_score'])
+        if evt['comments_bullish']:
+            for com in evt['comments_bullish']:
+                evt['comments'].append({"content" : com, "type" : "bullish"})
+        if evt['comments_bearish']:
+            for com in evt['comments_bearish']:
+                evt['comments'].append({"content" : com, "type" : "bearish"})
+    
+    return obj
 
 def message_classifier(message):
     prompt = f"""Given the user inquiry <<<>>> which category best fits:

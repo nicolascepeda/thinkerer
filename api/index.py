@@ -23,9 +23,11 @@ app.add_middleware(
 
 @app.get("/topic/{topic_type}/{topic_name}")
 def topic_information(topic_type, topic_name):
+    print("Getting topic information", topic_type, " information: ", topic_name)
     if topic_type == "world_event":
       return llm.world_event(topic_name)
-    if topic_name == "company_news":
+    
+    if topic_type == "company_news":
       return llm.company_news(topic_name)
     
 
