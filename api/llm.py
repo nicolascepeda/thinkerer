@@ -5,7 +5,7 @@ import re
 
 client = Groq(api_key=keys.GROQ_API_KEY)
 
-def complete_json(text, temperature=0.0,max_tokens=1024,json=False):
+def complete_json(text, model="llama3-70b-8192", temperature=0.0,max_tokens=1024,json=False):
     res = client.chat.completions.create(
         messages=[
             {
@@ -13,7 +13,7 @@ def complete_json(text, temperature=0.0,max_tokens=1024,json=False):
                 "content": text,
             }
         ],
-        model="llama3-70b-8192", #llama3-8b-8192
+        model=model, #llama3-8b-8192
         temperature=temperature,
         max_tokens=max_tokens,
         response_format= {"type": "json_object"}
@@ -36,7 +36,7 @@ def db_lookup(text,json=False):
                 "content": prompt,
             }
         ],
-        model="llama3-70b-8192", #llama3-8b-8192
+        model="llama3-8b-8192"
         # response_format= {"type": "json_object"}
     )
     result = res.choices[0].message.content
@@ -157,6 +157,6 @@ def message_classifier(message):
     
     return ONLY a JSON with the following keys category, title
     """
-    res = complete_json(prompt)
+    res = complete_json(prompt, model="llama3-70b-8192")
     obj = json.loads(res)
     return {"type" : obj['category'], "name" : obj['title']}
