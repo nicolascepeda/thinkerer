@@ -43,7 +43,7 @@ const WorldEvent: React.FC<Props> = (props: Props) => {
     const timeline = () => {
         return <div className="timeline">
 <ol className="relative border-s border-gray-200">
-    {information?.events.map((evt : any) => <li className="mb-10 ms-4 clickable" key={evt.title} onClick={e => event == evt ? setEvent(undefined) : setEvent(evt)}>
+    {information?.events.map((evt : any, idx : number) => <li className="mb-10 ms-4 clickable" key={evt.title} onClick={e => event == evt ? setEvent(undefined) : setEvent(evt)}>
             <div className="absolute w-3 h-3 brand-bg rounded-full mt-1.5 -start-1.5 border border-white border-gray-900"></div>
             <h3 className="text-lg font-semibold text-gray-900">{evt.title}</h3>
             <time className="mb-1 text-sm font-normal leading-none text-gray-400">{evt.date}</time>
@@ -53,8 +53,8 @@ const WorldEvent: React.FC<Props> = (props: Props) => {
             </p>
             {event == evt ? <div className="comments">
               <ul className="text-gray-500 text-sm ">
-                {evt.comments_political_left.map((comment:any) => <li>{comment}</li>)}
-                {evt.comments_political_right.map((comment:any) => <li>{comment}</li>)}
+                {evt.comments_political_left.map((comment:any, idx : number) => <li key={idx}>{comment}</li>)}
+                {evt.comments_political_right.map((comment:any, idx : number) => <li key={idx}>{comment}</li>)}
               </ul>
             </div> : ''}
 </li>)}
