@@ -21,6 +21,9 @@ def complete_json(text, model="llama3-70b-8192", temperature=0.0,max_tokens=1024
     return res.choices[0].message.content
 
 def db_lookup(text,json=False):
+    if len(events_db) == 0:
+        return -1
+    
     titles = list(map(lambda x: x['title'], events_db))
     prompt = f"""
     Here are the world events that I already know of: {titles}
@@ -37,7 +40,6 @@ def db_lookup(text,json=False):
             }
         ],
         model="llama3-8b-8192",
-        max_tokens=10
         # response_format= {"type": "json_object"}
     )
     result = res.choices[0].message.content

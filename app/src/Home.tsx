@@ -15,8 +15,8 @@ const Home: React.FC = () => {
     const [sending, setSending] = useState<boolean>(false)
 
     const suggestions: Topic[] = [
-        { "type": "world_event", "name": "War in Ukrain" },
-        { "type": "world_event", "name": "Israel-Palestina Conflict" },
+        { "type": "world_event", "name": "War in Ukraine" },
+        { "type": "world_event", "name": "Israel-Palestine Conflict" },
         { "type": "company_news", "name": "Tesla" },
         { "type": "company_news", "name": "OpenAI" },
     ];
